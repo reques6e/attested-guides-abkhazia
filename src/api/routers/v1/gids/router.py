@@ -80,12 +80,9 @@ async def get_gid(
                     if isinstance(sub_value, datetime):
                         value[sub_key] = sub_value.isoformat()
 
-    except Exception as e:
-        print('Ошибка')
-        print(e)
+    except Exception:
         gid_data = {
-            'error': 'not_found',
-            'details': str(e)
+            'error': 'not_found'
         }
 
     return JSONResponse(
@@ -99,15 +96,15 @@ async def get_gid(
     description='Гиды/Экскурсоводы'
 )
 async def get_gids() -> JSONResponse:
-    db_ = await GidsDAO.get_all()
-    print(db_)
+    response = await GidsDAO.get_all()
+
     gids = [
         {
             'id': value['id'],
             'name': value['fullName'],
-            'phone': f'+7 {value["contacts"].get("phone", "не указан")}' 
+            'phone': value['contacts']['phone']
         }
-        for value in db_
+        for value in response
     ]
     return JSONResponse(content=gids)
 
@@ -122,17 +119,14 @@ async def create_gid(gid: GidCreateRequest) -> JSONResponse:
     try:
         created_gid = await GidsDAO.create(
             id=gid.id,
-            full_name=gid.full_name,
-            photo_profile=gid.photo_profile,
+            full_name=gid.fullName,
+            photo_profile=gid.photoProfile,
             category=gid.category,
-            license_number=gid.license_number,
-            license_issuingAuthority=gid.license_issuingAuthority,
-            license_issueDate=gid.license_issueDate,
-            license_status=gid.license_status,
+            license=gid.license, 
             tags=gid.tags,
             contacts=gid.contacts,
             routes=gid.routes,
-            additional_info=gid.additional_info,
+            additional_info=gid.additionalInfo,
             history=gid.history
         )
         return JSONResponse(content=created_gid, status_code=status.HTTP_201_CREATED)
