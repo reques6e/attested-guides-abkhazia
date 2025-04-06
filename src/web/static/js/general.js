@@ -29,12 +29,11 @@ function renderTable() {
         const row = document.createElement("tr");
         row.className = "user-row";
         row.onclick = () => goToProfile(`user/${user.id}`);
-
         row.innerHTML = `
             <td class="number">${startIndex + index + 1}</td>
             <td>${user.name}</td>
             <td class="id">${user.id}</td>
-            <td>${user.phone}</td>
+            <td>+${user.phone}</td>
         `;
         tableBody.appendChild(row);
     });
