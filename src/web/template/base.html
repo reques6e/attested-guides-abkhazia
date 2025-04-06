@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %} - Реестр экскурсоводов</title>
+    {% block styles %}{% endblock %}
+    <link text="text/css"  href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
+    <style>
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/">
+            <div class="header">
+                <img src="{{ url_for('static', filename='img/gerb.png') }}" alt="Герб">
+                <div class="header-text">
+                    РЕЕСТР АТТЕСТОВАННЫХ ЭКСКУРСОВОДОВ, ОСУЩЕСТВЛЯЮЩИХ ДЕЯТЕЛЬНОСТЬ НА ТЕРРИТОРИИ РЕСПУБЛИКИ АБХАЗИЯ
+                </div>
+            </div>
+        </a>
+
+        {% block buttons %}
+        <div class="button-group">
+            <a href="/" class="button">Главная</a>
+            <a href="/docs" class="button">Документы</a>
+            <a href="#" class="button">Контакты</a>
+            <a href="/about" class="button">О реестре</a>
+        </div>
+        {% endblock %}
+
+        {% block content %}{% endblock %}
+
+        <div class="footer">
+            <div class="footer-content">
+                <a href="#">Политика конфиденциальности</a>
+                <a href="mailto:contact@abkhazia-tour.ru">contact@abkhazia-tour.ru</a>
+                <a href="tel:+79409991111">+7 (940) 999-11-11</a>
+                <a href="https://github.com/reques6e">Разработал: Астамур Ладария</a>
+            </div>
+        </div>
+    </div>
+
+    {% block scripts %}
+    <script>
+        function goToProfile(url) {
+            window.location.href = url;
+        }
+    </script>
+    {% endblock %}
+</body>
+</html>

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+<script src="{{ url_for('static', filename='js/general.js') }}" defer></script>
+
+<div style="text-align: right; margin-bottom: 10px;">
+    <input type="text" id="searchInput" placeholder="Поиск..." onkeyup="filterTable()">
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th class="number">№</th>
+            <th>ФИО</th>
+            <th>Идентификатор</th>
+            <th>Телефон</th>
+        </tr>
+    </thead>
+    <tbody id="tableBody">
+        <!-- Данные загружаются динамически -->
+    </tbody>
+</table>
+
+<div class="pagination">
+    <button onclick="prevPage()" id="prevBtn">Назад</button>
+    <span id="pageInfo"></span>
+    <button onclick="nextPage()" id="nextBtn">Вперед</button>
+</div>
+
+
+{% endblock %}

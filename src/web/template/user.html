@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div id="user-info" data-user-id="{{ user_id }}">
+    <script src="{{ url_for('static', filename='js/user.js') }}" defer></script>
+</div>
+
+<div class="loader" id="loader">
+    <div class="loader-spinner"></div>
+</div>
+
+<!-- Карточка профиля -->
+<div class="profile-card">
+    <div class="profile-header">
+        <div class="avatar-container">
+            <img class="profile-avatar" style="display: none;">
+            <div class="profile-avatar-initials"></div>
+        </div>
+        <div>
+            <h1 class="profile-title">Загрузка...</h1>
+            <p class="profile-subtitle">Загрузка...</p>
+            <div id="badges-container">
+                <span class="badge">Загрузка...</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="info-grid">
+        <div class="info-item">
+            <span class="info-label">Телефон</span>
+            <div class="info-value">Загрузка...</div>
+        </div>
+
+        <div class="info-item">
+            <span class="info-label">Категория</span>
+            <div class="info-value">Загрузка...</div>
+        </div>
+
+        <div class="info-item">
+            <span class="info-label">Лицензирующий орган</span>
+            <div class="info-value">Загрузка...</div>
+        </div>
+
+        <div class="info-item">
+            <span class="info-label">Номер реестровой записи</span>
+            <div class="info-value">Загрузка...</div>
+        </div>
+    </div>
+</div>
+
+<!-- Секция маршрутов -->
+<div class="profile-card">
+    <h3 style="margin-top: 0; color: var(--primary-color);">Маршруты экскурсий</h3>
+
+    <div class="route-card">
+        <div class="route-title">
+            Основной маршрут
+            <span class="route-number">№ в группе: 1</span>
+        </div>
+        <div class="route-points">
+            <span class="route-point">Загрузка...</span>
+        </div>
+    </div>
+</div>
+
+<!-- Дополнительная информация -->
+<div class="profile-card">
+    <h3 style="margin-top: 0; color: var(--primary-color);">Дополнительная информация</h3>
+    <div class="info-grid">
+        <div class="info-item">
+            <span class="info-label">ИНН</span>
+            <div class="info-value">Загрузка...</div>
+        </div>
+
+        <div class="info-item">
+            <span class="info-label">Способ сдачи экзамена</span>
+            <div class="info-value">Загрузка...</div>
+        </div>
+
+        <div class="info-item">
+            <span class="info-label">Тип лица</span>
+            <div class="info-value">Загрузка...</div>
+        </div>
+
+        <div class="info-item">
+            <span class="info-label">Дата выдачи лицензии</span>
+            <div class="info-value">Загрузка...</div>
+        </div>
+    </div>
+</div>
+
+<!-- История изменений -->
+<div class="profile-card">
+    <h3 style="margin-top: 0; color: var(--primary-color);">История изменений</h3>
+
+    <div class="info" id="history-container">
+        <div class="info-item">
+            <span class="info-label">Загрузка...</span>
+            <div class="info-value">Загрузка...</div>
+        </div>
+    </div>
+</div>
+{% endblock %}

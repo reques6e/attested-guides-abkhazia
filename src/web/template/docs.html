@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Документы{% endblock %}
+
+
+{% block content %}
+<link text="text/css"  href="{{ url_for('static', filename='css/index.css') }}" rel="stylesheet">
+<script src="{{ url_for('static', filename='js/docs.js') }}" defer></script>
+
+<table>
+    <thead>
+        <tr>
+            <th class="number">№</th>
+            <th>Название документа</th>
+            <th>Файл</th>
+        </tr>
+    </thead>
+    <tbody id="documents-list">
+        <!-- <tr class="user-row">
+            <td class="number"><img src="static/img/files/doc.png" class="file-icon"></td>
+            <td>Аттестация экскурсоводов (гидов)</td>
+            <td><a href="docs/files/...">Перейти</a></td>
+        </tr>
+        <tr class="user-row">
+            <td class="number"><img src="static/img/files/doc.png" class="file-icon"></td>
+            <td>Аттестация экскурсоводов (гидов)</td>
+            <td><a href="docs/files/...">Перейти</a></td>
+        </tr> -->
+    </tbody>
+</table>
+
+<script>
+    function goToProfile(url) {
+        window.location.href = url;
+    }
+</script>
+{% endblock %}

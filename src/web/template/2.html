@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Реестр экскурсоводов</title>
+    <style>
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Coat_of_arms_of_Abkhazia.svg/430px-Coat_of_arms_of_Abkhazia.svg.png" alt="Герб">
+            <div class="header-text">
+                РЕЕСТР АТТЕСТОВАННЫХ ЭКСКУРСОВОДОВ, ОСУЩЕСТВЛЯЮЩИХ ДЕЯТЕЛЬНОСТЬ НА ТЕРРИТОРИИ РЕСПУБЛИКИ АБХАЗИЯ
+            </div>
+        </div>
+
+        <div class="button-group">
+            <a href="#" class="button">Запросить справку</a>
+            <a href="#" class="button">Контакты</a>
+            <a href="#" class="button">Экспорт в PDF</a>
+            <a href="#" class="button">О реестре</a>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th class="number">№</th>
+                    <th>ФИО</th>
+                    <th>Идентификатор</th>
+                    <th>Телефон</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="user-row" onclick="goToProfile('user.html')">
+                    <td class="number">1</td>
+                    <td>Тестов Тест Тестович</td>
+                    <td class="id">U191KK</td>
+                    <td>+7 940 123-45-67</td>
+                </tr>
+                <tr class="user-row" onclick="goToProfile('#')">
+                    <td class="number">2</td>
+                    <td>Тест Тест Тест</td>
+                    <td class="id">A121OK</td>
+                    <td>+7 940 987-65-43</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="footer">
+            <div class="footer-content">
+                <a href="#">Политика конфиденциальности</a>
+                <a href="mailto:contact@abkhazia-tour.ru">contact@abkhazia-tour.ru</a>
+                <a href="tel:+79409991111">+7 (940) 999-11-11</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
