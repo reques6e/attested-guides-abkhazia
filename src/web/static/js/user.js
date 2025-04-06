@@ -145,24 +145,51 @@ function updateUI(guide) {
     }
 
     // 4. Обновляем маршруты
-    const routeContainer = document.querySelector('.route-points');
-    if (routeContainer && guide.routes && guide.routes[0]) {
-        routeContainer.innerHTML = '';
-        guide.routes[0].points.forEach((point, index) => {
-            const pointElement = document.createElement('span');
-            pointElement.className = 'route-point';
-            pointElement.textContent = point;
-            routeContainer.appendChild(pointElement);
+    const routesContainer = document.querySelector('.profile-card h3').parentNode;
+    if (routesContainer && guide.routes && guide.routes.length > 0) {
+        // Очищаем существующие маршруты (кроме заголовка)
+        while (routesContainer.children.length > 1) {
+            routesContainer.removeChild(routesContainer.lastChild);
+        }
 
-            if (index < guide.routes[0].points.length - 1) {
-                const arrow = document.createElement('span');
-                arrow.style.color = '#666';
-                arrow.style.marginLeft = '8px';
-                routeContainer.appendChild(arrow);
+        // Добавляем каждый маршрут
+        guide.routes.forEach(route => {
+            const routeCard = document.createElement('div');
+            routeCard.className = 'route-card';
+            
+            const routeTitle = document.createElement('div');
+            routeTitle.className = 'route-title';
+            routeTitle.innerHTML = `
+                ${route.name || 'Маршрут'}
+                <span class="route-number">${route.groupNumber || '№ в группе: N/A'}</span>
+            `;
+            
+            const routePoints = document.createElement('div');
+            routePoints.className = 'route-points';
+            
+            if (route.points && route.points.length > 0) {
+                route.points.forEach((point, index) => {
+                    const pointElement = document.createElement('span');
+                    pointElement.className = 'route-point';
+                    pointElement.textContent = point;
+                    routePoints.appendChild(pointElement);
+
+                    if (index < route.points.length - 1) {
+                        const arrow = document.createElement('span');
+                        // arrow.className = 'route-arrow';
+                        // arrow.innerHTML = ' &rarr; ';
+                        routePoints.appendChild(arrow);
+                    }
+                });
+            } else {
+                routePoints.innerHTML = '<span class="route-point">Нет данных о маршруте</span>';
             }
+            
+            routeCard.appendChild(routeTitle);
+            routeCard.appendChild(routePoints);
+            routesContainer.appendChild(routeCard);
         });
     }
-
     // 5. Обновляем дополнительные данные
     const profileCards = document.querySelectorAll('.profile-card');
     if (profileCards.length >= 3) {
