@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from typing import List, Optional
 
 from sqlalchemy import select
 from sqlalchemy import Column, Integer, String
@@ -11,6 +12,7 @@ from sqlalchemy.dialects.mysql import BIGINT
 from core.database import Base, async_session_maker
 from dao.base import BaseDAO
 
+from .models import ContactPoint, HistoryItem, AdditionalInfo, License, Contact
 
 class Gids(Base):
     __tablename__ = 'gids'
@@ -20,10 +22,7 @@ class Gids(Base):
     fullName = Column(String(255))
     photoProfile = Column(TEXT)
     category = Column(String(255))
-    license_number = Column(String(255))
-    license_issuingAuthority = Column(String(255))
-    license_issueDate = Column(DateTime)
-    license_status = Column(String(255))
+    license = Column(JSON)
     tags = Column(JSON)
     contacts = Column(JSON)
     routes = Column(JSON)
@@ -46,10 +45,7 @@ class GidsDAO(BaseDAO):
             Gids.fullName, 
             Gids.photoProfile, 
             Gids.category,
-            Gids.license_number,
-            Gids.license_issuingAuthority,
-            Gids.license_issueDate,
-            Gids.license_status,
+            Gids.license,
             Gids.tags,
             Gids.contacts,
             Gids.routes,
@@ -70,16 +66,7 @@ class GidsDAO(BaseDAO):
                     'fullName': row.fullName,
                     'photoProfile': row.photoProfile,
                     'category': row.category,
-                    'license': {
-                        'number': row.license_number,
-                        'issuingAuthority': row.issuingAuthority,
-                        'issueDate': row.license_issueDate,
-                        'status': row.license_status
-                    },
-                    # 'license_number': row.license_number,
-                    # 'license_issuingAuthority': row.license_issuingAuthority,
-                    # 'license_issueDate': row.license_issueDate,
-                    # 'license_status': row.license_status,
+                    'license': row.license,
                     'tags': row.tags,
                     'contacts': row.contacts,
                     'routes': row.routes,
@@ -99,10 +86,7 @@ class GidsDAO(BaseDAO):
             Gids.fullName, 
             Gids.photoProfile, 
             Gids.category,
-            Gids.license_number,
-            Gids.license_issuingAuthority,
-            Gids.license_issueDate,
-            Gids.license_status,
+            Gids.license,
             Gids.tags,
             Gids.contacts,
             Gids.routes,
@@ -122,16 +106,7 @@ class GidsDAO(BaseDAO):
                 'fullName': user.fullName,
                 'photoProfile': user.photoProfile,
                 'category': user.category,
-                'license': {
-                    'number': user.license_number,
-                    'issuingAuthority': user.license_issuingAuthority,
-                    'issueDate': user.license_issueDate,
-                    'status': user.license_status
-                },
-                # 'license_number': user.license_number,
-                # 'license_issuingAuthority': user.license_issuingAuthority,
-                # 'license_issueDate': user.license_issueDate,
-                # 'license_status': user.license_status,
+                'license': user.license,
                 'tags': user.tags,
                 'contacts': user.contacts,
                 'routes': user.routes,
@@ -141,29 +116,36 @@ class GidsDAO(BaseDAO):
         
     @classmethod
     async def create(
-        cls, id: str, full_name: str, photo_profile: str, category: str, license_number: str, 
-        license_issuingAuthority: str, license_issueDate: str, license_status: str,
-        tags: dict, contacts: dict, routes: dict, additional_info: dict, history: dict) -> dict:
+        cls, 
+        id: str, 
+        full_name: str, 
+        photo_profile: str, 
+        category: str, 
+        license: License, 
+        tags: List[str], 
+        contacts: Contact, 
+        routes: List[ContactPoint], 
+        additional_info: AdditionalInfo, 
+        history: List[HistoryItem]
+    ) -> dict:
         """
         Создает нового экскурсовода
         """
-
-        license_issueDate_str = license_issueDate.strftime('%Y-%m-%d %H:%M:%S')
+        license_dict = license.dict()
+        if 'issueDate' in license_dict and isinstance(license_dict['issueDate'], datetime):
+            license_dict['issueDate'] = license_dict['issueDate'].strftime('%Y-%m-%d %H:%M:%S')
 
         new_gid = Gids(
             id=id,
             fullName=full_name,
             photoProfile=photo_profile,
             category=category,
-            license_number=license_number,
-            license_issuingAuthority=license_issuingAuthority,
-            license_issueDate=license_issueDate_str,
-            license_status=license_status,
+            license=license_dict, 
             tags=tags,
-            contacts=contacts,
-            routes=routes,
-            additionalInfo=additional_info,
-            history=history
+            contacts=contacts.dict(),
+            routes=[route.dict() for route in routes],
+            additionalInfo=additional_info.dict(),
+            history=[item.dict() for item in history]
         )
 
         async with async_session_maker() as session:
@@ -175,10 +157,7 @@ class GidsDAO(BaseDAO):
             'fullName': new_gid.fullName,
             'photoProfile': new_gid.photoProfile,
             'category': new_gid.category,
-            'license_number': new_gid.license_number,
-            'license_issuingAuthority': new_gid.license_issuingAuthority,
-            'license_issueDate': new_gid.license_issueDate,
-            'license_status': new_gid.license_status,
+            'license': new_gid.license,
             'tags': new_gid.tags,
             'contacts': new_gid.contacts,
             'routes': new_gid.routes,
