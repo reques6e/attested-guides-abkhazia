@@ -3,6 +3,10 @@
 {% block title %}Главная{% endblock %}
 
 {% block content %}
+<div class="loader" id="loader">
+    <div class="loader-spinner"></div>
+</div>
+
 <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 <script src="{{ url_for('static', filename='js/general.js') }}" defer></script>
 

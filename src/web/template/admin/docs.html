@@ -1,0 +1,61 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Документы{% endblock %}
+
+
+{% block content %}
+<link text="text/css"  href="{{ url_for('static', filename='css/index.css') }}" rel="stylesheet">
+<script src="{{ url_for('static', filename='js/docs-admin.js') }}" defer></script>
+
+<div id="edit-modal" class="modal">
+    <div class="modal-content">
+        <span id="close-modal" class="close">&times;</span>
+        <h2 id="modal-title">Редактирование документа</h2>
+        
+        <div class="input-group">
+            <label for="document-name">Название документа</label>
+            <input type="text" id="document-name" placeholder="Название документа">
+        </div>
+        
+        <div class="input-group">
+            <label for="document-url">URL документа</label>
+            <input type="text" id="document-url" placeholder="URL документа">
+        </div>
+        
+        <div class="input-group">
+            <label for="document-type">Тип документа</label>
+            <select id="document-type">
+                <option value="doc">DOC</option>
+                <option value="pdf">PDF</option>
+                <option value="xlsx">XLSX</option>
+            </select>
+        </div>
+        
+        <button id="save-changes">Сохранить</button>
+    </div>
+</div>
+
+<div class="loader" id="loader">
+    <div class="loader-spinner"></div>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th class="number">№</th>
+            <th>Название документа</th>
+            <th>Файл</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="documents-list"></tbody>
+</table>
+
+<script>
+    const isAuthenticated = {{ is_authenticated | tojson }};
+    console.log(isAuthenticated)
+    function goToProfile(url) {
+        window.location.href = url;
+    }
+</script>
+{% endblock %}

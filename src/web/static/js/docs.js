@@ -1,10 +1,15 @@
 async function fetchDocuments() {
+    const loader = document.getElementById('loader');
+    loader.classList.remove('hidden');
+
     try {
         const response = await fetch("http://0.0.0.0:5008/v1/docs/");
         if (!response.ok) {
             throw new Error(`Ошибка: ${response.status}`);
         }
         const data = await response.json();
+        loader.classList.add('hidden');
+
         return data.data;
     } catch (error) {
         console.error("Ошибка при получении документов:", error);
@@ -12,12 +17,11 @@ async function fetchDocuments() {
     }
 }
 
-
 function renderDocuments(documents) {
     const tableBody = document.getElementById('documents-list');
     tableBody.innerHTML = '';  // чистим таблицу
 
-    documents.forEach((doc, index) => {
+    documents.forEach((doc) => {
         const row = document.createElement('tr');
         row.classList.add('user-row');
 
@@ -26,7 +30,7 @@ function renderDocuments(documents) {
         iconCell.classList.add('number');
         const icon = document.createElement('img');
         icon.classList.add('file-icon');
-        icon.src = getIconSrc(doc.type);  
+        icon.src = getIconSrc(doc.file_type);
         iconCell.appendChild(icon);
 
         // Колонка с названием документа
@@ -36,7 +40,7 @@ function renderDocuments(documents) {
         // Колонка с ссылкой на файл
         const linkCell = document.createElement('td');
         const link = document.createElement('a');
-        link.href = doc.file;
+        link.href = doc.url;
         link.textContent = 'Перейти';
         linkCell.appendChild(link);
 
@@ -51,18 +55,18 @@ function renderDocuments(documents) {
 function getIconSrc(fileType) {
     switch (fileType) {
         case 'doc':
-            return "static/img/files/doc.png";  // Иконка для doc
+            return "/static/img/files/doc.png";  // Иконка для doc
         case 'pdf':
-            return "static/img/files/pdf.png";  // Иконка для pdf
+            return "/static/img/files/pdf.png";  // Иконка для pdf
         case 'xlsx':
-            return "static/img/files/xls.png";  // Иконка для xlsx
+            return "/static/img/files/xls.png";  // Иконка для xlsx
         default:
-            return "static/img/files/doc.png";  // Иконка по умолчанию
+            return "/static/img/files/doc.png";  // Иконка по умолчанию
     }
 }
 
 // Запуск функции загрузки документов и рендеринга
 document.addEventListener('DOMContentLoaded', async () => {
-    const documents = await fetchDocuments();  // Получение данных из API
-    renderDocuments(documents);  // Отображение данных в таблице
+    const documents = await fetchDocuments();  
+    renderDocuments(documents);  
 });

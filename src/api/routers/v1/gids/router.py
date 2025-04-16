@@ -6,8 +6,11 @@ from fastapi.responses import JSONResponse
 
 from sqlalchemy.exc import IntegrityError
 
+from core.auth import verify_user
+
 from .dao import GidsDAO
 from .models import GidCreateRequest
+
 
 router = APIRouter(
     prefix='/gids',
@@ -112,7 +115,8 @@ async def get_gids() -> JSONResponse:
 @router.post(
     path='/',
     status_code=status.HTTP_201_CREATED,
-    description='Создать экскурсовода'
+    description='Создать экскурсовода',
+    dependencies=[Depends(verify_user)]
 )
 async def create_gid(gid: GidCreateRequest) -> JSONResponse:
     """Создание нового экскурсовода"""

@@ -3,6 +3,9 @@ let currentPage = 1;
 const usersPerPage = 10;
 
 async function loadUsers() {
+    const loader = document.getElementById('loader');
+    loader.classList.remove('hidden');
+
     try {
         const response = await fetch("http://0.0.0.0:5008/v1/gids/all/");
         if (!response.ok) {
@@ -14,6 +17,7 @@ async function loadUsers() {
         console.error("Ошибка при получении документов:", error);
         return [];
     }
+    loader.classList.add('hidden');
 
     renderTable();
 }

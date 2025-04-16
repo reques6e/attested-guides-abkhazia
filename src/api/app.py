@@ -3,7 +3,7 @@ import asyncio
 import sys
 import os
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -20,9 +20,14 @@ api = FastAPI(
     redoc_url=None
 )
 
+allow_origins=[
+    'http://localhost:5000',  
+    'http://127.0.0.1:5000'
+]
+
 api.add_middleware(
     CORSMiddleware,
-    allow_origins=['*'],  
+    allow_origins=allow_origins,  
     allow_credentials=True,
     allow_methods=['*'],  
     allow_headers=['*'], 
